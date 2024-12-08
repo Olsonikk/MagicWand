@@ -1,47 +1,59 @@
 import os
+import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-# Function to load data from CSV files in a directory
+# Wczytaj dane z folderów
 def load_data_from_directory(directory):
     data = []
     labels = []
     for filename in os.listdir(directory):
         if filename.endswith(".csv"):
-            filepath = os.path.join(directory, filename)
-            df = pd.read_csv(filepath)
+            file_path = os.path.join(directory, filename)
+            df = pd.read_csv(file_path)
             data.append(df.values)
-            labels.append(directory.split('/')[-1])  # Assuming directory name is the label
+            labels.append(directory)  # Zakładamy, że nazwa folderu to etykieta
     return data, labels
 
-# Load data from 'lewo' and 'przod' directories
 lewo_data, lewo_labels = load_data_from_directory('lewo')
 przod_data, przod_labels = load_data_from_directory('przod')
 
-# Combine data and labels
+# Połącz dane i etykiety
 X = lewo_data + przod_data
 y = lewo_labels + przod_labels
 
-# Flatten the data
+# Spłaszcz dane
 X = [item.flatten() for item in X]
 
-# Split the data into training and testing sets
+# Podziel dane na zestawy treningowe i testowe
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Initialize and train the model
-model = RandomForestClassifier(n_estimators=100, random_state=42)
+# Inicjalizuj i wytrenuj model
+model = RandomForestClassifier(n_estimators=15, random_state=42)
 model.fit(X_train, y_train)
 
-# Make predictions and evaluate the model
+# Dokonaj predykcji i oceń model
 y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
-
 print(f"Model accuracy: {accuracy * 100:.2f}%")
 
-
+# Szczegóły głosowania większościowego
 unknown_X, unknown_Y = load_data_from_directory('unknown')
 unknown_X = [item.flatten() for item in unknown_X]
 
-print(model.predict(unknown_X))
+# Prawdopodobieństwa przewidywań
+proba = model.predict_proba(unknown_X)
+print("Prediction probabilities:")
+print(proba)
+
+# Przewidywania z poszczególnych drzew
+all_tree_predictions = np.array([tree.predict(unknown_X) for tree in model.estimators_]).T
+print("Predictions from individual trees:")
+print(all_tree_predictions)
+
+# Ostateczne przewidywania
+final_predictions = model.predict(unknown_X)
+print("Final predictions:")
+print(final_predictions)
