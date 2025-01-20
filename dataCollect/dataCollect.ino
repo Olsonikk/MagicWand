@@ -71,7 +71,7 @@ void loop() {
         {
           break;
         }
-        delay(10);
+        delay(5);
       }
       inde = 0;
       Serial.println("");

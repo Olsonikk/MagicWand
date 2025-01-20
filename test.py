@@ -19,10 +19,15 @@ def load_data_from_directory(directory):
 
 lewo_data, lewo_labels = load_data_from_directory('lewo')
 przod_data, przod_labels = load_data_from_directory('przod')
+avada_data, avada_labels = load_data_from_directory('avada')
+lumos_data, lumos_labels = load_data_from_directory('lumos')
+alohomora_data, alohomora_labels = load_data_from_directory('alohomora')
+wingardium_data, wingardium_labels = load_data_from_directory('wingardium')
+
 
 # Połącz dane i etykiety
-X = lewo_data + przod_data
-y = lewo_labels + przod_labels
+X = lewo_data + przod_data + avada_data + lumos_data + alohomora_data + wingardium_data
+y = lewo_labels + przod_labels + avada_labels + lumos_labels + alohomora_labels + wingardium_labels
 
 # Spłaszcz dane
 X = [item.flatten() for item in X]

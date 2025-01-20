@@ -13,7 +13,7 @@ fields = ['time', 'acc_X', 'acc_Y', 'acc_Z', 'gyro_X', 'gyro_Y', 'gyro_Z']
 ser = serial.Serial(port, baudrate, timeout=1)
 time.sleep(1)
 count=0
-while(count < 10):
+while(count < 30):
     # Wysłanie znaku "x"
     ser.write(b'x')
     print("Wysłano 'x'")
@@ -31,7 +31,7 @@ while(count < 10):
         print("Brak danych do odczytu")
     time.sleep(1.5)
     count += 1
-    file_path = f"unknown/unknown{count:03}.csv"
+    file_path = f"avada/avada{count:03}.csv"
 
     with open(file_path, 'w') as csvfile:
         csvwriter = csv.writer(csvfile)
