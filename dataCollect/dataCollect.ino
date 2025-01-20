@@ -5,13 +5,13 @@ float ax, ay, az;
 float gx, gy, gz;
 
 int inde = 0;
-
+int buttonstate = 1;
 void setup() {
   pinMode(LEDR, OUTPUT);
   pinMode(LEDG, OUTPUT);
   pinMode(LEDB, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
-
+  pinMode(D5, INPUT_PULLUP);
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(LEDR, HIGH);
   digitalWrite(LEDG, HIGH);
@@ -27,10 +27,8 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available() > 0) {
-    char receivedChar = Serial.read(); // Odczytanie znaku z Serial Monitor
-  
-  if (receivedChar == 'x') {
+  buttonstate = digitalRead(D5);
+  if (buttonstate == LOW) {
     unsigned long StartTime = millis();
     digitalWrite(LEDG, LOW);
     
@@ -80,5 +78,4 @@ void loop() {
       digitalWrite(LEDG, HIGH);
       digitalWrite(LEDR, HIGH);
     }
-  }
 }
