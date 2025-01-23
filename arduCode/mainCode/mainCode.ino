@@ -1,4 +1,4 @@
-#include "model.h"
+#include "model_with_labels.h"
 #include "Arduino_BMI270_BMM150.h"
 
 #define SAMPLE_COUNT 100
@@ -46,7 +46,7 @@ void loop() {
   char res = Serial.read();
   if (buttonState == LOW || res == 'x') {
     Serial.println("start");
-    unsigned long startTime = millis();
+    unsigned int startTime = millis();
     digitalWrite(LEDG, LOW);
 
     while (1) {
@@ -54,8 +54,8 @@ void loop() {
         IMU.readAcceleration(ax, ay, az);
         IMU.readGyroscope(gx, gy, gz);
 
-        unsigned long currentTime = millis();
-        dataArray[indeks][0] = currentTime - startTime; // Timestamp
+        unsigned int currentTime = millis();
+        dataArray[indeks][0] = (unsigned int) currentTime - startTime; // Timestamp
         dataArray[indeks][1] = ax;
         dataArray[indeks][2] = ay;
         dataArray[indeks][3] = az;
@@ -74,22 +74,26 @@ void loop() {
       }
     }
 
-    // Debugowanie: wyświetl dane z tablicy
-    // Serial.println("Zebrane dane:");
+    Serial.println("Zebrane dane:");
     // for (int i = 0; i < SAMPLE_COUNT; i++) {
-    //   Serial.print("[");
+    //   //Serial.print("[");
     //   for (int j = 0; j < 7; j++) {
-    //     Serial.print(dataArray[i][j]);
+    //     if (j == 0) {
+    //       Serial.print((unsigned int)dataArray[i][j]); // Wyświetl czas jako liczba całkowita
+    //     } else {
+    //       Serial.print(dataArray[i][j], 2); // Wyświetl pozostałe wartości z 2 miejscami po przecinku
+    //     }
     //     if (j < 6) Serial.print(", ");
     //   }
-    //   Serial.println("]");
+    //   Serial.println("");
     // }
+
     delay(100);
     // Spłaszczenie tablicy
     flattenData();
 
     // Predykcja
-    Serial.println(classifier.predict(flattenedArray));
+    Serial.println(classifier.predictLabel(flattenedArray));
 
     indeks = 0; // Zresetuj indeks dla następnej próby
     digitalWrite(LEDG, HIGH);
