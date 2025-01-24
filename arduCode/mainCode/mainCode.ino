@@ -42,7 +42,7 @@ void setup() {
   digitalWrite(LEDB, HIGH);
 
   Serial.begin(9600);
-  while (!Serial);
+  //while (!Serial);
 
   if (!IMU.begin()) {
     Serial.println("Failed to initialize IMU!");
