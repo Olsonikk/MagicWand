@@ -21,7 +21,7 @@ def load_data_from_directory(directory):
 # Wczytanie danych z różnych folderów
 lewo_data, lewo_labels = load_data_from_directory('lewo')
 przod_data, przod_labels = load_data_from_directory('przod')
-avada_data, avada_labels = load_data_from_directory('avada')
+avada_data, avada_labels = load_data_from_directory('avada2')
 lumos_data, lumos_labels = load_data_from_directory('lumos')
 alohomora_data, alohomora_labels = load_data_from_directory('alohomora')
 wingardium_data, wingardium_labels = load_data_from_directory('wingardium')

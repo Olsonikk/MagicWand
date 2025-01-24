@@ -1650,15 +1650,15 @@ namespace Eloquent {
                             case 0:
                             return "wingardium";
                             case 1:
-                            return "lewo";
+                            return "avada2";
                             case 2:
                             return "alohomora";
                             case 3:
-                            return "lumos";
-                            case 4:
                             return "przod";
+                            case 4:
+                            return "lumos";
                             case 5:
-                            return "avada2";
+                            return "lewo";
                             default:
                             return "Houston we have a problem";
                         }

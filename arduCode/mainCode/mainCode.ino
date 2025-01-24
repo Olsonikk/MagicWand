@@ -1,9 +1,15 @@
 #include "model_with_labels.h"
 #include "Arduino_BMI270_BMM150.h"
+#include <Adafruit_NeoPixel.h>
+
+#define PIN D3  //LED pin
+#define NUM_LEDS 1 //ile Ledow
 
 #define SAMPLE_COUNT 100
 #define FLATTENED_SIZE (SAMPLE_COUNT * 7)
 
+Adafruit_NeoPixel strip(NUM_LEDS, PIN, NEO_GRBW + NEO_KHZ800);
+bool lumos_on = false;
 Eloquent::ML::Port::RandomForest classifier;
 float ax, ay, az;
 float gx, gy, gz;
@@ -22,6 +28,9 @@ void flattenData() {
 }
 
 void setup() {
+  strip.begin();      // Inicjalizacja NeoPixel
+  strip.setBrightness(90);
+  strip.show();       // Wyłączenie wszystkich diod na start
   pinMode(LEDR, OUTPUT);
   pinMode(LEDG, OUTPUT);
   pinMode(LEDB, OUTPUT);
@@ -91,9 +100,25 @@ void loop() {
     delay(100);
     // Spłaszczenie tablicy
     flattenData();
-
+    String result = classifier.predictLabel(flattenedArray);
     // Predykcja
-    Serial.println(classifier.predictLabel(flattenedArray));
+    Serial.println(result);
+
+    if(result == "lumos")
+    {
+      if(!lumos_on)
+      {
+        strip.setPixelColor(0, strip.Color(0, 0, 0, 255));
+        strip.show();
+      }
+      else
+      {
+        strip.setPixelColor(0, strip.Color(0, 0, 0, 0));
+        strip.show();
+      }
+      lumos_on = !lumos_on;
+
+    }
 
     indeks = 0; // Zresetuj indeks dla następnej próby
     digitalWrite(LEDG, HIGH);

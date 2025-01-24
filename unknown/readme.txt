@@ -1,1 +1,0 @@
-przod lewo na przemian

@@ -19,7 +19,7 @@ def load_data_from_directory(directory):
 
 lewo_data, lewo_labels = load_data_from_directory('lewo')
 przod_data, przod_labels = load_data_from_directory('przod')
-avada_data, avada_labels = load_data_from_directory('avada')
+avada_data, avada_labels = load_data_from_directory('avada2')
 lumos_data, lumos_labels = load_data_from_directory('lumos')
 alohomora_data, alohomora_labels = load_data_from_directory('alohomora')
 wingardium_data, wingardium_labels = load_data_from_directory('wingardium')
@@ -45,7 +45,7 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f"Model accuracy: {accuracy * 100:.2f}%")
 
 # Szczegóły głosowania większościowego
-unknown_X, unknown_Y = load_data_from_directory('unknown')
+unknown_X, unknown_Y = load_data_from_directory('unknown2')
 unknown_X = [item.flatten() for item in unknown_X]
 
 # Prawdopodobieństwa przewidywań
