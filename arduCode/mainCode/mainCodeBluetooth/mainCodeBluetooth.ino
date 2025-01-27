@@ -14,7 +14,7 @@ BLEStringCharacteristic messageCharacteristic("87654321-4321-4321-4321-abcdefabc
 #define FLATTENED_SIZE (SAMPLE_COUNT * 7)
 
 Adafruit_NeoPixel strip(NUM_LEDS, PIN, NEO_GRBW + NEO_KHZ800);
-bool lumos_on = false;
+
 Eloquent::ML::Port::RandomForest classifier;
 float ax, ay, az;
 float gx, gy, gz;
@@ -81,6 +81,8 @@ void loop() {
 
   BLE.poll();
   if (buttonState == LOW || res == 'x') {
+    strip.setPixelColor(0, strip.Color(0, 0, 0, 0));
+    strip.show();
     Serial.println("start");
     unsigned int startTime = millis();
     digitalWrite(LEDG, LOW);
@@ -106,11 +108,10 @@ void loop() {
         } else if (indeks == SAMPLE_COUNT) {
           break; // Zebrano wszystkie odczyty
         }
-        delay(10);
       }
     }
 
-    Serial.println("Zebrane dane:");
+    // Serial.println("Zebrane dane:");
     // for (int i = 0; i < SAMPLE_COUNT; i++) {
     //   //Serial.print("[");
     //   for (int j = 0; j < 7; j++) {
@@ -134,18 +135,29 @@ void loop() {
 
     if(result == "lumos")
     {
-      if(!lumos_on)
-      {
-        strip.setPixelColor(0, strip.Color(0, 0, 0, 255));
-        strip.show();
-      }
-      else
-      {
-        strip.setPixelColor(0, strip.Color(0, 0, 0, 0));
-        strip.show();
-      }
-      lumos_on = !lumos_on;
-
+      fadeWhite(1500);
+    }
+    else if(result == "avada")
+    {
+      strip.setPixelColor(0, strip.Color(0, 200, 0, 0)); // RGB=0,0,0, W=brightness
+      strip.show();
+      delay(1000);
+      strip.setPixelColor(0, strip.Color(0, 0, 0, 0)); // RGB=0,0,0, W=brightness
+      strip.show();
+    }
+    else if(result == "wingardium")
+    {
+      strip.setPixelColor(0, strip.Color(200, 83, 244, 0)); // RGB=0,0,0, W=brightness
+      strip.show();
+      delay(1500);
+      strip.setPixelColor(0, strip.Color(0, 0, 0, 0)); // RGB=0,0,0, W=brightness
+      strip.show();
+    }
+    else if(result == "alohomora")
+    {
+      fadeWhite(200);
+      strip.setPixelColor(0, strip.Color(0, 0, 0, 0)); // RGB=0,0,0, W=brightness
+      strip.show();
     }
 
     indeks = 0; // Zresetuj indeks dla następnej próby
@@ -153,3 +165,17 @@ void loop() {
     digitalWrite(LEDR, HIGH);
   }
 }
+
+void fadeWhite(int duration) {
+  int steps = 255; // Rozdzielczość jasności (od 0 do 255)
+  int delayTime = duration / steps;
+
+  for (int i = 0; i <= steps; i++) {
+    uint8_t brightness = i; // Jasność od 0 do 255
+    strip.setPixelColor(0, strip.Color(0, 0, 0, brightness)); // RGB=0,0,0, W=brightness
+    strip.show();
+    delay(delayTime);
+  }
+}
+
+
