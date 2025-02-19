@@ -1,4 +1,7 @@
 # MagicWand
+Hardware: Arduino Nano 33 BLE Sense Rev2
+![Image 1](img/1.png)
+![Image 2](img/2.png)
 
 ## Files
 DataCollect.ino - arduino code for gathering data \
