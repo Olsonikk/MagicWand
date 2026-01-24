@@ -10,4 +10,5 @@ Hardware: Arduino Nano 33 BLE Sense Rev2
 DataCollect.ino - arduino code for gathering data \
 DataCollect.py - python code for reading Serial Monitor and saving it into csv files \
 bluetooth.py - bluetooth server responsible for receiving the spell name \
-ML.ipynb - main jupyter notebook for training and exporting tinyML model
+ML.ipynb - jupyter notebook for training and exporting tinyML model based on Random Forest Classifier
+ML_CNN.ipynb - jupyter notebook for training and exporting tinyML model based on CNN
